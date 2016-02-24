@@ -9,6 +9,7 @@ path = 'E:\Courses\independent_study\getLegislators\*.json'
 files = glob.glob(path)
 with open('cid.csv', 'wb') as csvFile:
 	csvWriter = csv.writer(csvFile)
+	csvWriter.writerow(['name', 'cid','party','office'])
 	for fileName in files:
 		try:
 			with open(fileName) as f:
@@ -16,10 +17,10 @@ with open('cid.csv', 'wb') as csvFile:
 				
 				if(len(data['response']['legislator'])) > 1:
 					for i in data['response']['legislator']:
-						csvWriter.writerow(['name', i['@attributes']['firstlast'],'cid',i['@attributes']['cid'],'party', i['@attributes']['party'], 'office', i['@attributes']['office']])
+						csvWriter.writerow([i['@attributes']['firstlast'],i['@attributes']['cid'], i['@attributes']['party'], i['@attributes']['office']])
 				elif (len(data['response']['legislator'])) == 1:
-					csvWriter.writerow(['name', data['response']['legislator']['@attributes']['firstlast'],'cid',data['response']['legislator']['@attributes']['cid'],
-										'party', data['response']['legislator']['@attributes']['party'], 'office', data['response']['legislator']['@attributes']['office']])
+					csvWriter.writerow([data['response']['legislator']['@attributes']['firstlast'],data['response']['legislator']['@attributes']['cid'],
+									data['response']['legislator']['@attributes']['party'], data['response']['legislator']['@attributes']['office']])
 		except IOError as exc:
 			if exc.errno != errno.EISDIR:
 				raise
